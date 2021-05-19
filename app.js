@@ -1,24 +1,21 @@
 const express = require('express')
 const app = express();
 const mongoose = require('mongoose');
-const bodyParser = require('body-parser')
 require('dotenv/config');
 
-//Middlewears
-// app.use('/', () => {
-
-// })
 
 //Import Routes
+const postsRoute = require('./routes/posts');
+const authRoute = require('./routes/auth');
+
+// Route Middlewears
 app.use(express.json());
 app.use(express.urlencoded({
   extended: true
 }));
 
-
-const postsRoute = require('./routes/posts');
-
-app.use('/posts',postsRoute)
+app.use('/api/posts',postsRoute)
+app.use('/api/auth',authRoute)
 
 
 //Connect To DB
@@ -29,4 +26,4 @@ mongoose.connect(process.env.DB_CONNECTION,
     })
 
 // Listen
-app.listen(4000);
+app.listen(4000, () => console.log('Server is up and running'));
